@@ -1,16 +1,22 @@
 #include <iostream>
 #include <vector>
-#include <ctime>
+#include <algorithm>
 
 using namespace std;
 
+struct compare {
+    bool operator()(const std::string& first, const std::string& second) {
+        return first.size() < second.size();
+    }
+};
+
 int main() {
 	std::clock_t start = std::clock();
-
-
 	int test_cases;
 	int inputs;
 	string number;
+
+	compare c;
 
 	vector<string> many_numbers;
 
@@ -24,45 +30,38 @@ int main() {
 		for(int j = 0; j < inputs; j++) {
 			cin >> number;
 
-			for(int k = 0; k < many_numbers.size(); k++) {
+			many_numbers.push_back(number);
+		}
 
-				if(number.length() < many_numbers[k].length()) {
-					continue;
-				}
+		sort(many_numbers.begin(), many_numbers.end(), c);
 
-				for(int l = 0; l < many_numbers[k].length(); l++){
-					if(number[l] == many_numbers[k][l]) {
+		for(int j = 1; j < many_numbers.size(); j++) {
+			for(int k = 0; k < j; k++) {
+				for(int l = 0; l < many_numbers[k].size(); l++) {
+					if(many_numbers[k][l] == many_numbers[j][l]) {
 						exit = true;
 					}
-					else{
+					else {
 						exit = false;
 						break;
 					}
 				}
-
-				if(exit == true){
+				if(exit == true) {
 					break;
 				}
 			}
-
-			if(exit == true){
-				break;
-			}
-
-			many_numbers.push_back(number);
 		}
 
 		if(exit == true) {
 			cout << "NO" << endl;
 		}
-		else {
+		else{
 			cout << "YES" << endl;
 		}
 
 		exit = false;
 		many_numbers.clear();
 	}
-
 	cout << ( std::clock() - start ) / (double) CLOCKS_PER_SEC << endl;
 
 	return 0;
