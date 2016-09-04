@@ -20,15 +20,14 @@ int main() {
 		current_time += player_time;
 
 		if(current_time >= 210 && loser == 0) {
-			loser = (current_player - 1 % 8) + 1;
+			loser = (current_player % 8);
+			if(loser == 0) {
+				loser = 8;
+			}
 		}
 
-		if(answer == 'T') {
+		if(answer == 'T'){
 			current_player += 1;
-		}
-
-		if(current_time >= 210 && loser == 0) {
-			loser = (current_player % 8) + 1;
 		}
 	}
 
