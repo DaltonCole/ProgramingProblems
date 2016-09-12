@@ -57,27 +57,3 @@ for i in range(testCases):
 		print("%02d %02d %02d" % (numbers[0], numbers[1], numbers[2]))
 	else:
 		print("-1")
-
-
-def valid_date(year, month, day):
-	thirty_one = [1, 3, 5, 7, 8, 10, 12]
-	thirty = [4, 6, 9, 11]
-	feburary = 2
-
-	if month > 12 or day > 31:
-		return false
-	if month in thirty_one:
-		if day > 31:
-			return false
-	elif month in thirty:
-		if day > 30:
-			return false
-	# No Leap Year
-	elif month == feburary:
-		if year % 4 != 0 or (year % 100 == 0 and year % 400 != 0):
-			if day > 28:
-				return false
-		else:
-			if day > 29:
-				return false
-	return true
