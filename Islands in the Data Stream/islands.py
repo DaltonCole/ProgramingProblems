@@ -22,7 +22,6 @@ def sub(s)
 			iN -= 1
 			break
 			
-	total = 0
 	if i0 == iN:
 		x, i0 = sub(s[i0:iN], i0)
 		total += x
