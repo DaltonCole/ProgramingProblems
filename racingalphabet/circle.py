@@ -36,8 +36,9 @@ c_to_n['\''] = 27
 def time(sentence):
 	distance = 0
 	for i in range(len(sentence) - 1):
-		dif = abs(c_to_n[sentence[i]] - c_to_n[sentence[i+1]])
-		#print(sentence[i] + " " + sentence[i+1] + " " +str(dif))
+		dif = abs(c_to_n[sentence[i]] - c_to_n[sentence[i+1]]) % 15
+		other = abs(c_to_n[sentence[i+1]] + c_to_n[sentence[i]]) % 15
+		dif = min(dif, other)
 		distance += dif * piece
 	time = distance + len(sentence)
 	print(time)
