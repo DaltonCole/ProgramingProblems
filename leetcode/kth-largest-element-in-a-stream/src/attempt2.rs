@@ -1,45 +1,49 @@
 use std::cmp::Reverse;
-use std::collections::BinaryHeap;
 
 struct KthLargest {
     k: i32,
-    nums: BinaryHeap<Reverse<i32>>,
+    nums: Vec<i32>,
 }
 
-/**
+
+/** 
  * `&self` means the method takes an immutable reference.
  * If you need a mutable reference, change it to `&mut self` instead.
  */
 impl KthLargest {
-    fn new(k: i32, mut nums: Vec<i32>) -> Self {
-        let mut heap = BinaryHeap::new();
-        for num in nums {
-            if heap.len() < k as usize {
-                heap.push(Reverse(num));
-            } else {
-                if heap.peek().unwrap().0 < num {
-                    heap.pop();
-                    heap.push(Reverse(num));
-                }
-            }
-        }
-        KthLargest { k, nums: heap }
-    }
 
+    fn new(k: i32, mut nums: Vec<i32>) -> Self {
+        // Sort vector in descending order
+        nums.sort_by(|a, b| b.cmp(a));
+        // Only keep k largest elements
+        if nums.len() > k as usize {
+            nums.drain(k as usize..);
+        }
+        KthLargest {
+            k,
+            nums,
+        }
+        
+    }
+    
     fn add(&mut self, val: i32) -> i32 {
-        // Need more elements, so add val to heap
         if self.nums.len() < self.k as usize {
-            self.nums.push(Reverse(val));
+            let position = self.nums.binary_search_by_key(&Reverse(val), |&num| Reverse(num)).unwrap_or_else(|e| e);
+            self.nums.insert(position, val);
+            return *self.nums.last().unwrap()
+
         }
-        // New value is larger than the heap's smallest element
-        else if val > self.nums.peek().unwrap().0 {
-            // Remove smallest number
-            self.nums.pop();
-            // Add larger val to heap
-            self.nums.push(Reverse(val));
+
+        match val <= *self.nums.last().unwrap() {
+            true => *self.nums.last().unwrap(),
+            false => {
+                self.nums.pop();
+                let position = self.nums.binary_search_by_key(&Reverse(val), |&num| Reverse(num)).unwrap_or_else(|e| e);
+                self.nums.insert(position, val);
+                *self.nums.last().unwrap()
+            }
+            
         }
-        // Return the smallest of the k elements
-        return self.nums.peek().unwrap().0;
     }
 }
 
