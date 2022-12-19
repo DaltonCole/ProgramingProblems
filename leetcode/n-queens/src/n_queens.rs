@@ -1,4 +1,4 @@
-struct Solution;
+pub struct Solution;
 
 struct BoardState {
     cols: u32,
