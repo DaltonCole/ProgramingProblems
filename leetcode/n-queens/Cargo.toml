@@ -11,3 +11,12 @@ criterion = "0.4.0"
 [[bench]]
 name = "my_benchmark"
 harness = false
+
+[profile.bench]
+debug = true
+
+[profile.release]
+debug = true
+
+[profile.test]
+debug = true
