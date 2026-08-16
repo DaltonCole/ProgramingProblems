@@ -24,7 +24,25 @@ impl TreeNode {
 struct Solution;
 
 impl Solution {
-    pub fn recover_tree(root: &mut Option<Rc<RefCell<TreeNode>>>) {}
+    pub fn recover_tree(root: &mut Option<Rc<RefCell<TreeNode>>>) {
+        let mut max = None;
+        let bad;
+        let parent = root.clone();
+        let mut queue = Vec::new();
+        let mut went_left = false;
+
+        queue.push(parent);
+
+        while !queue.is_empty() {
+            let node = queue.pop().unwrap();
+
+            if !went_left {
+                if let Some(x) = node.borrow().left {}
+            }
+        }
+
+        loop {}
+    }
 }
 
 #[cfg(test)]
@@ -32,16 +50,16 @@ mod test {
     use super::*;
 
     fn array_to_tree(arr: &[Option<i32>]) -> Option<Rc<RefCell<TreeNode>>> {
-        let mut root = Some(Rc::new(RefCell::new(TreeNode::new(arr[0].unwrap()))));
-        let mut root2 = root.clone();
+        let root = Some(Rc::new(RefCell::new(TreeNode::new(arr[0].unwrap()))));
+        let root2 = root.clone();
 
         let mut queue = VecDeque::new();
         queue.push_back(root.unwrap());
 
         let mut i = 1;
         while i < arr.len() {
-            let mut curr = queue.pop_front().unwrap();
-            println!("{:?}", curr);
+            let curr = queue.pop_front().unwrap();
+
             if i < arr.len() {
                 if let Some(x) = arr[i] {
                     let left = Rc::new(RefCell::new(TreeNode::new(x)));
@@ -60,14 +78,22 @@ mod test {
             }
         }
 
-        println!("{:#?}", root2);
         root2
     }
-
     #[test]
     fn test1() {
         let mut org_tree = self::array_to_tree(&[Some(1), Some(3), None, None, Some(2)]);
-        let mut ans_tree = self::array_to_tree(&[Some(3), Some(1), None, None, Some(2)]);
+        let ans_tree = self::array_to_tree(&[Some(3), Some(1), None, None, Some(2)]);
+
+        Solution::recover_tree(&mut org_tree);
+
+        assert_eq!(org_tree, ans_tree);
+    }
+
+    #[test]
+    fn test2() {
+        let mut org_tree = self::array_to_tree(&[Some(3), Some(1), Some(4), None, None, Some(2)]);
+        let ans_tree = self::array_to_tree(&[Some(2), Some(1), Some(4), None, None, Some(3)]);
 
         Solution::recover_tree(&mut org_tree);
 
